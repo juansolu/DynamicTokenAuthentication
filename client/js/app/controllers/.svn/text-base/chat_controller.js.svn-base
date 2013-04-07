@@ -1,0 +1,65 @@
+var ChatCtrl = function(
+    $scope, $location, $routeParams) {
+    
+    var SERVER_LOCATION = "http://localhost:4567/";
+    var SERVER_LOCATION_STREAM = "http://localhost:4567/stream";
+    
+    $scope.msg = "Hello message.";
+    $scope.chatMessages = "";
+
+    // reading
+    var es = new EventSource(SERVER_LOCATION_STREAM);
+      es.onmessage = function(e) {
+        console.log(e.data);
+        var privateMsg = '--privateMessage: ';
+        var privateMsgEnd = '--';
+        var msgDisplay = "";
+        var msgReceived = JSON.parse(e.data);
+        $scope.clientList = msgReceived.clientList;
+        if(msgReceived.to == "all"){
+          msgDisplay = msgReceived.user +": "+msgReceived.msgContent;
+          $scope.chatMessages += msgDisplay + "\n";
+        }
+        else if(msgReceived.to == $scope.username){
+            msgDisplay = privateMsg + msgReceived.user +": "+msgReceived.msgContent + privateMsgEnd;
+            $scope.chatMessages += msgDisplay + "\n";
+        }
+        else if(msgReceived.user == $scope.username){
+            msgDisplay = msgReceived.user +"["+msgReceived.to+"]: "+msgReceived.msgContent;
+            $scope.chatMessages += msgDisplay + "\n";
+        }
+        $scope.$apply();
+    };
+    
+    $scope.sendMsg = function(){
+      // writing
+      if($('input[name=toUser]:checked').val() == undefined){
+        alert("You must select a user to send a message to!");
+        return;
+      }
+
+      console.log("Radio: "+$('input[name=toUser]:checked').val());
+      $.post(SERVER_LOCATION, {
+        msg: {
+        user: $scope.username,
+        msgContent: $scope.msg,
+        to: $('input[name=toUser]:checked').val()
+        }
+      });
+      
+      $('#msg').val(''); 
+      $('#msg').focus();
+
+    };
+
+    $scope.disconnectChat = function(){
+      $.post(SERVER_LOCATION, {
+        msg: {
+        user: $scope.username,
+        msgContent: "DISCONNECT",
+        to: "DISCONNECT"
+        }
+      });
+    };
+
+}

@@ -1,0 +1,17 @@
+.chattingMessages{
+  height: 350px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.inputlarge{
+  width: 100%;
+}
+
+.inputsmall{
+  width: 85%;
+}
+
+.privateMessage{
+  color: green;
+}
