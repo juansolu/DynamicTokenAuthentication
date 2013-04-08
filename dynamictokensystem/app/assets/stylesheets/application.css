@@ -11,3 +11,8 @@
  *= require_self
  *= require_tree .
  */
+
+#historyTextArea{
+  height:300px;
+  overflow-y:scroll;
+}

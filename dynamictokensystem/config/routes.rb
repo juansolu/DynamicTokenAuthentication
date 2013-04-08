@@ -2,6 +2,11 @@ Dynamictokensystem::Application.routes.draw do
   resources :users
 
   root :to => 'users#index'
+  
+  match 'login', :via => [:get], :to => 'users#authenticateUser'
+  match 'logout', :via => [:get], :to => 'users#endAuthenticateUser'
+  
+  match 'resetDemo', :via => [:get], :to => 'users#resetUserToSeed'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
