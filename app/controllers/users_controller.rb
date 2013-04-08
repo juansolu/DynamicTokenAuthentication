@@ -137,9 +137,10 @@ class UsersController < ApplicationController
   end
 
   # GET /users
-  # GET /users.to_jsonon
+  # GET /users.json
   def index
     @user_model = User.where("username = ?", params[:user]).first
+    
     puts "user found: "+@user_model.inspect
     setKey(@user_model.valid_token)
     @msgReceivedDecrypted = decrypt(params[:msgContent])

@@ -2,7 +2,7 @@
 
 var SecureClientCtrl = function($scope, $location, $http) {
     
-    var SERVER_LOCATION = "http://localhost:3000/";
+    var SERVER_LOCATION = "http://dynamictokenrotation.herokuapp.com/";
     var INITIAL_SEED = "bgcdadjoofmejkpnjdcicpfmfoeohjam";
     var ROTATED_TOKEN = "bgcdadjoofmejkpnjdcicpfmfoeohjam";
     
